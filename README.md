@@ -10,7 +10,6 @@ A responsive web application that displays user profiles with gender filtering.
    ```
 2. Install dependencies:
    ```bash
-   cd user-gallery
    npm install express axios cors
    ```
 
