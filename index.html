@@ -10,10 +10,22 @@
   <div class="header">
     <h1>User Profiles</h1>
   </div>
+  <div class="filters">
+    <select id="genderFilter">
+      <option value="">All Genders</option>
+      <option value="male">Male</option>
+      <option value="female">Female</option>
+    </select>
+    <button id="applyFilters">Filter</button>
+    <div id="loading" class="loading-spinner"></div>
+  </div>
   <div class="gallery" id="userGallery">
     <!-- Cards will be inserted here by JavaScript -->
   </div>
+  
+  
   <button id="loadMore">Load More</button>
+ 
   <script src="script.js"></script>
 </body>
 </html>

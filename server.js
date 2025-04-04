@@ -10,13 +10,26 @@ const PORT = 3001;
 // Hämta users data
 app.get('/api/users', async (req, res) => {
   try {
-    const { page = 1, results = 20 } = req.query; // börjar med 20 användare per sida
-    const response = await axios.get(`https://randomuser.me/api/?page=${page}&results=${results}`);
-    res.json(response.data.results); 
+    const { page = 1, results = 20, gender } = req.query;
+
+    // Skapa API-url UTAN seed
+    let apiUrl = `https://randomuser.me/api/?page=${page}&results=${results}`;
+
+    if (gender) {
+      apiUrl += `&gender=${gender}`; // Lägg till könsfilter
+    }
+
+    console.log("Fetching from API:", apiUrl); // Debugga API-anropet
+
+    const response = await axios.get(apiUrl);
+    res.json(response.data.results);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    console.error("API Fetch Error:", error);
+    res.status(500).json({ error: "Failed to fetch users" });
   }
 });
+
+
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
