@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>User Gallery</title>
+  <title>Sketch User Gallery</title>
   <link rel="stylesheet" href="/style/style.css">
 </head>
 <body>
-  <div class="header">
-    <h1>User Profiles</h1>
-  </div>
-  <div class="filters">
+  <header class="header">
+    <h1>Users</h1>
+  </header>
+  <article class="filters">
     <select id="genderFilter">
       <option value="">All Genders</option>
       <option value="male">Male</option>
@@ -18,10 +18,10 @@
     </select>
     <button id="applyFilters">Filter</button>
     <div id="loading" class="loading-spinner"></div>
-  </div>
-  <div class="gallery" id="userGallery">
-    <!-- Cards will be inserted here by JavaScript -->
-  </div>
+  </article>
+  <article class="gallery" id="userGallery">
+    <!-- Javascript function will add fetched profiles here-->
+  </article>
   
   
   <button id="loadMore">Load More</button>

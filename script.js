@@ -1,32 +1,31 @@
-let currentPage = 1; 
-let currentGender = ''; // Lägg till denna rad för att undvika undefined-fel
+let currentPage = 1; // starting page for pagination
+let currentGender = ''; // Setting the gender value to an empty string
 
 const gallery = document.getElementById('userGallery');
 const loadMoreBtn = document.getElementById('loadMore');
 
-// Lyssna på filter-knappen
+// event listener for the "gender filter" button
 document.getElementById('applyFilters').addEventListener('click', () => {
   const genderFilterElement = document.getElementById('genderFilter');
-  currentGender = genderFilterElement.value.trim(); // Hämta könsvärde från dropdown
+  currentGender = genderFilterElement.value.trim(); 
+ 
+  // We want to reset the page when filtering so that old users are not shown
+  currentPage = 1; 
+  gallery.innerHTML = ''; 
 
-  console.log("Selected gender:", currentGender); // Logga värdet från dropdown
-
-  currentPage = 1; // Återställ sidan
-  document.getElementById('userGallery').innerHTML = ''; // Rensa tidigare användare
+  document.getElementById('userGallery').innerHTML = ''; 
   loadUsers();
 });
 
 
-// Funktion för att hämta användardata från backend
+// Getting the user from backend
 async function fetchUsers(page = 1, limit = 10, gender = '') {
   try {
     let url = `http://localhost:3001/api/users?page=${page}&results=${limit}`;
     
     if (gender && gender !== '') { 
-      url += `&gender=${gender}`; // Lägg till könsfilter om det finns
+      url += `&gender=${gender}`; 
     }
-
-    console.log("Fetching users from:", url); // Logga URL för att verifiera
 
     const response = await fetch(url);
     return await response.json();
@@ -37,16 +36,9 @@ async function fetchUsers(page = 1, limit = 10, gender = '') {
 }
 
 
-// Funktion för att ladda användare
-async function loadUsers() {
-  const users = await fetchUsers(currentPage, 10, currentGender);
-  users.forEach(user => gallery.appendChild(createUserCard(user)));
-  currentPage++;
-}
-
-// Funktion för att skapa användarkort
+// Creating user cards
 function createUserCard(user) {
-  const card = document.createElement('div');
+  const card = document.createElement('section');
   card.className = 'user-card';
   card.innerHTML = `
     <img src="${user.picture.medium}" alt="${user.name.first}">
@@ -57,34 +49,36 @@ function createUserCard(user) {
   `;
   return card;
 }
+
+
 async function loadUsers() {
   const loadingSpinner = document.getElementById('loading');
-  const gallery = document.getElementById('userGallery');
-  
-  // Show spinner and clear gallery
+
+  // Does not wipe the gallery when loading more users
   loadingSpinner.style.display = 'block';
-  gallery.innerHTML = '';
-  
+
   try {
-    const users = await fetchUsers(currentGender);
+    const users = await fetchUsers(currentPage, 10, currentGender);
     
-    // Hide spinner when data is ready
+    // Loading animation on pause when data is fetched
     loadingSpinner.style.display = 'none';
-    
-    // Add staggered animations
+
+
     users.forEach((user, index) => {
       const card = createUserCard(user);
       card.style.animationDelay = `${index * 0.1}s`;
       gallery.appendChild(card);
     });
-    
+
+    currentPage++; 
+
   } catch (error) {
     loadingSpinner.style.display = 'none';
     console.error("Error loading users:", error);
   }
 }
-// Lyssna på "Ladda mer"-knappen
+
 loadMoreBtn.addEventListener('click', loadUsers);
 
-// Hämta användare vid start
+// Start loading users on page load
 loadUsers();

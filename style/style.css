@@ -1,10 +1,11 @@
+/* Variables for colors and fonts */
 :root {
-  --primary: #2563eb;    /* Vibrant blue */
+  --primary: #2563eb;    
   --primary-hover: #1d4ed8;
-  --background: #f8fafc;
-  --card-bg: #ffffff;
-  --text: #1e293b;
-  --text-light: #64748b;
+  --background: #000000;
+  --card-bg: #1d1d1d;
+  --text: #4b8ffc;
+  --text-light: #ffffff;
 }
 
 body {
@@ -42,7 +43,7 @@ button {
   cursor: pointer;
   font-weight: 500;
   transition: all 0.2s ease;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 3px 3px rgba(0, 0, 0, 0.1);
 }
 
 button:hover {
